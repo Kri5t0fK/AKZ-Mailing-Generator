@@ -1,42 +1,105 @@
+:root {
+    --background-1: #1b1b1b;
+    --background-2: #252525;
+
+    --node-text: #dadada;
+    /* --node-text-dimmed: #b4b4b4; */
+    --node-border: #3f3f3f;
+    --node-background-label: #1b1b1b;
+    --node-background-input: #272727;
+    --node-background-hover: #1f1f1f;
+    --node-add: #487c13;
+    --node-add-hover: #3e7409;
+    --node-add-border: #3b6e0c;
+    --node-remove: #9b341b;
+    --node-remove-hover: #922d13;
+    --node-remove-border: #7e1d05;
+    --node-indent-border: #454749;
+
+    --category-mail-topic: #386330;
+    --category-mail-topic-border: #2e4922;
+    --category-mail-topic-background: #21331d;
+    --category-topic-segment: #838383;
+    --category-topic-segment-border: #6b6b6b;
+    --category-topic-segment-background: #414141;
+    --category-custom-list-element: #306163;
+    --category-custom-list-element-border: #224849;
+    --category-custom-list-element-background: #1d3333;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
+    /* width: 100%; */
+    /* height: 100%; */
+    color: var(--node-text);
+    background-color: var(--background-1);
+    font-size: 18px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.node-header button,
+.node-header select,
+.node-header input,
+textarea {
+    font-size: inherit;
+    font-family: inherit;
+    padding-left: 6px;
+    background-color: var(--node-background-input);
+}
+
+input.custom-list-element-emoji {
+    width: 50px;
+}
+
+textarea {
+    padding-top: 6px;
     width: 100%;
-    height: 100%;
+    resize: vertical;
+    min-height: 80px;
 }
 
-button {
-    padding: 5px;
-    background-color: #4fa400;
-    margin: 0 auto;
-}
-
-button:hover {
-    background-color: #487c13;
+.node-header button {
+    padding: 0 9px;
+    cursor: pointer;
 }
 
 main {
-    /* background-color: aqua; */
-    float: left;
-    max-width: 50%;
-    z-index: 1;
-    display: block;
-    height: 100%;
-    padding-right: min(700px, 50%);
-    overflow: hidden;
+    /* float: left; */
+    /* max-width: 50vw; */
+    /* z-index: 1; */
+    /* display: block; */
+    /* height: 100%; */
+    padding-right: min(700px, 50vw);
+    /* overflow: hidden; */
 }
 
 .tree {
     padding: 8px 16px;
 }
 
-.node-header > * {
-    border: 1px solid;
+.node-header {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
 }
 
-.node-header > label {
-    background-color: rgb(39, 102, 16);
-    border-color: #004f15;
-    align-self: flex-start;
+.node-header>* {
+    height: 34px;
+    /* margin-right: -1px; TODO */
+    border: 1px solid;
+    color: var(--node-text);
+    border-color: var(--node-border);
+}
+
+.node-header>label {
+    background-color: var(--node-background-label);
+    border-color: var(--node-border);
+    /* align-self: flex-start; */
     padding: 0 9px;
     line-height: 1.94rem;
     white-space: nowrap;
@@ -45,19 +108,145 @@ main {
     user-select: none;
 }
 
-.html-view {
+button {
+    margin: 0;
+}
+
+button.add {
+    background-color: var(--node-add);
+    border-color: var(--node-add-border);
+}
+
+button.remove {
+    background-color: var(--node-remove);
+    border-color: var(--node-remove-border);
+}
+
+button.add:hover {
+    background-color: var(--node-add-hover);
+}
+
+button.remove:hover {
+    background-color: var(--node-remove-hover);
+}
+
+button.toggle:not([disabled]):hover,
+button.move:not([disabled]):hover {
+    background-color: var(--node-background-hover);
+}
+
+.node-move {
+    display: flex;
+    flex-direction: column;
+    width: 34px;
+}
+
+button.move {
+    height: 50%;
+    border: none;
+    display: flex;
+    fill: var(--node-text);
+}
+
+button.move:disabled {
+    cursor: unset;
+    fill: var(--node-border);
+}
+
+button.move+button.move {
+    border-top: 1px solid var(--node-border);
+}
+
+.html-preview {
     position: fixed;
     left: 100%;
     transform: translate(-100%);
     bottom: 0;
     height: 100%;
-    background-color: #e3e3e3;
+    background-color: var(--background-2);
     max-width: 700px;
     width: 50%;
     overflow: hidden;
 }
 
-.node-header {
-    display: inline-flex;
-    margin: 0 auto;
+.node-body>.node:first-child {
+    margin-top: 4px;
 }
+
+.node:last-child {
+    margin-bottom: 0;
+}
+
+.node {
+    margin-bottom: 4px;
+}
+
+.node-body {
+    border-left: 3px solid var(--node-indent-border);
+    display: flex;
+    padding-left: 18px;
+    flex-direction: column;
+}
+
+img, svg {
+    display: block;
+}
+
+.node-header>button svg {
+    fill: var(--node-text);
+}
+
+.node-body>.node.object-node[data-category] {
+    width: 100%;
+    padding: 5px 5px 5px 0;
+    border: 2px solid;
+}
+
+.node-body>.node.object-node[data-category=mail-topic] {
+    background-color: var(--category-mail-topic-background);
+    border-color: var(--category-mail-topic-border);
+}
+
+[data-category=mail-topic]>.node-header>label,
+[data-category=mail-topic].node-header>label,
+[data-category=mail-topic]>.node-body>.node>.node-header>label 
+{
+    background-color: var(--category-mail-topic);
+}
+
+.node-body>.node.object-node[data-category=topic-segment] {
+    background-color: var(--category-topic-segment-background);
+    border-color: var(--category-topic-segment-border);
+}
+
+[data-category=topic-segment]>.node-header>label,
+[data-category=topic-segment].node-header>label,
+[data-category=topic-segment]>.node-body>.node>.node-header>label {
+    background-color: var(--category-topic-segment);
+}
+
+.node-body>.node.object-node[data-category=custom-list-element] {
+    background-color: var(--category-custom-list-element-background);
+    border-color: var(--category-custom-list-element-border);
+}
+
+[data-category=custom-list-element]>.node-header>label,
+[data-category=custom-list-element].node-header>label,
+[data-category=custom-list-element]>.node-body>.node>.node-header>label {
+    background-color: var(--category-custom-list-element);
+}
+
+.node-body>.object-node[data-category]>.node-body {
+    border: none;
+    padding-left: 0;
+}
+
+.object-node[data-category]>.node-body>.node-list>.node-body {
+    border: none;
+}
+
+.object-node[data-category]>.node-body>.node>.node-header>*:first-child,
+.object-node[data-category]>.node-header>*:first-child {
+    border-left: none;
+}
+
